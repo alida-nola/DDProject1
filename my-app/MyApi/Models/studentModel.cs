@@ -11,14 +11,14 @@ namespace MyApi.Models
 
         [Required]
         [StringLength(255)]
-        public string first_name { get; set; }
+        public required string first_name { get; set; }
 
         [Required]
         [StringLength(255)]
-        public string last_name { get; set; }
+        public required string last_name { get; set; }
 
         [StringLength(255)]
-        public string major { get; set; }
-        
+        public string major { get; set; } = "Undeclared";
+
     }
 }

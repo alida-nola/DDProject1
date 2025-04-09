@@ -11,14 +11,15 @@ namespace MyApi.Models
 
         [Required]
         [ForeignKey("Professor")]
-        public int professor_id { get; set; }
+        public required int professor_id { get; set; }
 
         [Required]
         [ForeignKey("Course")]
-        public int course_id{ get; set; }
+        public required int course_id{ get; set; }
 
+        [Required]
         [StringLength(255)]
-        public string semester { get; set; }
+        public required string semester { get; set; }
 
         public virtual Course Course { get; set; }
         public virtual Professor Professor { get; set; }

@@ -11,14 +11,16 @@ namespace MyApi.Models
 
         [Required]
         [ForeignKey("Course")]
-        public int course_id{ get; set; }
+        public required int course_id{ get; set; }
 
         [Required]
         [ForeignKey("Student")]
-        public int student_id { get; set; }
+        public required int student_id { get; set; }
 
-        public int capacity { get; set; }
+        [Required]
+        public required int capacity { get; set; }
 
+        [Required]
         [StringLength(255)]
         public string semester { get; set; }
 
