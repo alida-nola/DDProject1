@@ -16,28 +16,28 @@ namespace MyApi.Controllers
             _context = context;
         }
 
-        // GET: Reads list of Enrolleds
+        // GET: Reads list of Enrolled
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Enrolled>>> GetEnrolleds()
+        public async Task<ActionResult<IEnumerable<Enrolled>>> GetEnrolled()
         {
-            var Enrolleds = await _context.Enrolleds.ToListAsync();
-            return Ok(Enrolleds);  
+            var Enrolled = await _context.Enrolled.ToListAsync();
+            return Ok(Enrolled);  
         }
 
         // POST: Creates Enrolled
         [HttpPost]
         public async Task<ActionResult<Enrolled>> PostEnrolled(Enrolled Enrolled)
         {
-            _context.Enrolleds.Add(Enrolled);
+            _context.Enrolled.Add(Enrolled);
             await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetEnrolleds), new { id = Enrolled.Enrolled_id }, Enrolled);  // Return 201 Created with the new Enrolled
+            return CreatedAtAction(nameof(GetEnrolled), new { id = Enrolled.enrolled_id }, Enrolled);  // Return 201 Created with the new Enrolled
         }
 
         // PUT: Updates existing Enrolled
         [HttpPut("{id}")]
         public async Task<IActionResult> PutEnrolled(int id, Enrolled Enrolled)
         {
-            if (id != Enrolled.Enrolled_id)
+            if (id != Enrolled.enrolled_id)
             {
                 return BadRequest();  
             }
@@ -67,13 +67,13 @@ namespace MyApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEnrolled(int id)
         {
-            var Enrolled = await _context.Enrolleds.FindAsync(id);
+            var Enrolled = await _context.Enrolled.FindAsync(id);
             if (Enrolled == null)
             {
                 return NotFound();  
             }
 
-            _context.Enrolleds.Remove(Enrolled);
+            _context.Enrolled.Remove(Enrolled);
             await _context.SaveChangesAsync();
 
             return NoContent();  
@@ -81,7 +81,7 @@ namespace MyApi.Controllers
 
         private bool EnrolledExists(int id)
         {
-            return _context.Enrolleds.Any(e => e.Enrolled_id == id);
+            return _context.Enrolled.Any(e => e.enrolled_id == id);
         }
     }
 }

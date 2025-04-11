@@ -30,14 +30,14 @@ namespace MyApi.Controllers
         {
             _context.Professors.Add(Professor);
             await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetProfessors), new { id = Professor.Professor_id }, Professor);  // Return 201 Created with the new Professor
+            return CreatedAtAction(nameof(GetProfessors), new { id = Professor.professor_id }, Professor);  // Return 201 Created with the new Professor
         }
 
         // PUT: Updates existing professor
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProfessor(int id, Professor Professor)
         {
-            if (id != Professor.Professor_id)
+            if (id != Professor.professor_id)
             {
                 return BadRequest();  
             }
@@ -81,7 +81,7 @@ namespace MyApi.Controllers
 
         private bool ProfessorExists(int id)
         {
-            return _context.Professors.Any(e => e.Professor_id == id);
+            return _context.Professors.Any(e => e.professor_id == id);
         }
     }
 }

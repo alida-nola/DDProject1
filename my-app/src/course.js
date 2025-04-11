@@ -7,110 +7,109 @@ import Form from 'react-bootstrap/Form';
 import Dropdown from 'react-bootstrap/Dropdown';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 
-const StudentTable = () => {
-  const [students, setStudents] = useState([]);
+const CourseTable = () => {
+  const [Courses, setCourses] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
 
-  const [newStudent, setNewStudent] = useState({
-    first_name: '',
-    last_name: '',
-    major: ''
+  const [newCourse, setNewCourse] = useState({
+    course_name: '',
+    couse_department: '',
+    credit_hours: ''
   });
 
-  const [editStudent, setEditStudent] = useState(null);
+  const [editCourse, setEditCourse] = useState(null);
 
   useEffect(() => {
-    fetchStudents();
+    fetchCourses();
   }, []);
 
-  const fetchStudents = async () => {
+  const fetchCourses = async () => {
     try {
-      const response = await axios.get('http://localhost:5071/api/Student');
-      setStudents(response.data);
+      const response = await axios.get('http://localhost:5071/api/Course');
+      setCourses(response.data);
     } catch (error) {
-      console.error('Error fetching students:', error);
+      console.error('Error fetching Courses:', error);
     }
   };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setNewStudent(prev => ({ ...prev, [name]: value }));
+    setNewCourse(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleCreateStudent = async (e) => {
+  const handleCreateCourse = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5071/api/Student', newStudent);
-      setNewStudent({ first_name: '', last_name: '', major: '' });
+      await axios.post('http://localhost:5071/api/Course', newCourse);
+      setNewCourse({ first_name: '', last_name: '', major: '' });
       setShowModal(false);
-      fetchStudents();
+      fetchCourses();
     } catch (error) {
-      console.error('Error creating student:', error);
+      console.error('Error creating Course:', error);
     }
   };
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5071/api/Student/${id}`);
-      fetchStudents();
+      await axios.delete(`http://localhost:5071/api/Course/${id}`);
+      fetchCourses();
     } catch (error) {
-      console.error('Error deleting student:', error);
+      console.error('Error deleting Course:', error);
     }
   };
 
-  const handleEdit = (student) => {
-    setEditStudent({ ...student });
+  const handleEdit = (Course) => {
+    setEditCourse({ ...Course });
     setShowEditModal(true);
   };
 
   const handleEditInputChange = (e) => {
     const { name, value } = e.target;
-    setEditStudent(prev => ({ ...prev, [name]: value }));
+    setEditCourse(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleUpdateStudent = async (e) => {
+  const handleUpdateCourse = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:5071/api/Student/${editStudent.student_id}`, editStudent);
+      await axios.put(`http://localhost:5071/api/Course/${editCourse.course_id}`, editCourse);
       setShowEditModal(false);
-      fetchStudents();
+      fetchCourses();
     } catch (error) {
-      console.error('Error updating student:', error);
+      console.error('Error updating Course:', error);
     }
   };
 
   return (
     <div className="p-1">
       <div className="d-flex justify-content-between align-items-center mb-2">
-        <h2 className="mb-0">Students</h2>
-        <Button variant="primary" onClick={() => setShowModal(true)}>+ Create Student</Button>
+        <h2 className="mb-0">Courses</h2>
+        <Button variant="primary" onClick={() => setShowModal(true)}>+ Create Course</Button>
       </div>
 
       <Table striped bordered hover responsive className="mt-2">
         <thead>
           <tr>
-            <th>ID</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Major</th>
+            <th>Name</th>
+            <th>Department</th>
+            <th>Credit Hours</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {students.map(student => (
-            <tr key={student.student_id}>
-              <td>{student.student_id}</td>
-              <td>{student.first_name}</td>
-              <td>{student.last_name}</td>
-              <td>{student.major}</td>
+          {Courses.map(Course => (
+            <tr key={Course.course_id}>
+              <td>{Course.course_id}</td>
+              <td>{Course.course_name}</td>
+              <td>{Course.course_department}</td>
+              <td>{Course.credit_hours}</td>
               <td>
                 <Dropdown as={ButtonGroup}>
                   <Button variant="outline-secondary" size="sm">Actions</Button>
-                  <Dropdown.Toggle split variant="outline-secondary" id={`dropdown-${student.student_id}`} />
+                  <Dropdown.Toggle split variant="outline-secondary" id={`dropdown-${Course.course_id}`} />
                   <Dropdown.Menu>
-                    <Dropdown.Item onClick={() => handleEdit(student)}>Edit</Dropdown.Item>
-                    <Dropdown.Item className="text-danger" onClick={() => handleDelete(student.student_id)}>Delete</Dropdown.Item>
+                    <Dropdown.Item onClick={() => handleEdit(Course)}>Edit</Dropdown.Item>
+                    <Dropdown.Item className="text-danger" onClick={() => handleDelete(Course.course_id)}>Delete</Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
               </td>
@@ -122,36 +121,36 @@ const StudentTable = () => {
       {/* Create Modal */}
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Create New Student</Modal.Title>
+          <Modal.Title>Create New Course</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form onSubmit={handleCreateStudent}>
+          <Form onSubmit={handleCreateCourse}>
             <Form.Group className="mb-3">
-              <Form.Label>First Name</Form.Label>
+              <Form.Label>Name</Form.Label>
               <Form.Control
                 type="text"
-                name="first_name"
-                value={newStudent.first_name}
+                name="course_name"
+                value={newCourse.first_name}
                 onChange={handleInputChange}
                 required
               />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Last Name</Form.Label>
+              <Form.Label>Department</Form.Label>
               <Form.Control
                 type="text"
-                name="last_name"
-                value={newStudent.last_name}
+                name="course_department"
+                value={newCourse.course_department}
                 onChange={handleInputChange}
                 required
               />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Major</Form.Label>
+              <Form.Label>Credit Hours</Form.Label>
               <Form.Control
                 type="text"
-                name="major"
-                value={newStudent.major}
+                name="credit_hours"
+                value={newCourse.credit_hours}
                 onChange={handleInputChange}
                 required
               />
@@ -164,37 +163,37 @@ const StudentTable = () => {
       {/* Edit Modal */}
       <Modal show={showEditModal} onHide={() => setShowEditModal(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Edit Student</Modal.Title>
+          <Modal.Title>Edit Course</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {editStudent && (
-            <Form onSubmit={handleUpdateStudent}>
+          {editCourse && (
+            <Form onSubmit={handleUpdateCourse}>
               <Form.Group className="mb-3">
-                <Form.Label>First Name</Form.Label>
+                <Form.Label>Name</Form.Label>
                 <Form.Control
                   type="text"
-                  name="first_name"
-                  value={editStudent.first_name}
+                  name="course_name"
+                  value={editCourse.course_name}
                   onChange={handleEditInputChange}
                   required
                 />
               </Form.Group>
               <Form.Group className="mb-3">
-                <Form.Label>Last Name</Form.Label>
+                <Form.Label>Department</Form.Label>
                 <Form.Control
                   type="text"
-                  name="last_name"
-                  value={editStudent.last_name}
+                  name="course_department"
+                  value={editCourse.course_department}
                   onChange={handleEditInputChange}
                   required
                 />
               </Form.Group>
               <Form.Group className="mb-3">
-                <Form.Label>Major</Form.Label>
+                <Form.Label>Credit Hours</Form.Label>
                 <Form.Control
-                  type="text"
-                  name="major"
-                  value={editStudent.major}
+                  type="number"
+                  name="credit_hours"
+                  value={editCourse.credit_hours}
                   onChange={handleEditInputChange}
                   required
                 />
@@ -208,4 +207,4 @@ const StudentTable = () => {
   );
 };
 
-export default StudentTable;
+export default CourseTable;

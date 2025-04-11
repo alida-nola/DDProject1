@@ -11,13 +11,13 @@ namespace MyApi.Models
 
         [Required]
         [StringLength(255)]
-        public required string course_name { get; set; }
+        public string course_name { get; set; }
 
         [StringLength(255)]
-        public required string course_department { get; set; }
+        public string course_department { get; set; }
 
         [Required]
-        public required int credit_hours { get; set; }
+        public int credit_hours { get; set; }
         
     }
 }

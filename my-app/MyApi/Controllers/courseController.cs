@@ -30,14 +30,14 @@ namespace MyApi.Controllers
         {
             _context.Courses.Add(Course);
             await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetCourses), new { id = Course.Course_id }, Course);  // Return 201 Created with the new Course
+            return CreatedAtAction(nameof(GetCourses), new { id = Course.course_id }, Course);  // Return 201 Created with the new Course
         }
 
         // PUT: Updates existing course
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCourse(int id, Course Course)
         {
-            if (id != Course.Course_id)
+            if (id != Course.course_id)
             {
                 return BadRequest();  
             }
@@ -81,7 +81,7 @@ namespace MyApi.Controllers
 
         private bool CourseExists(int id)
         {
-            return _context.Courses.Any(e => e.Course_id == id);
+            return _context.Courses.Any(e => e.course_id == id);
         }
     }
 }

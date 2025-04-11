@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using MyApi.Models;
 
 namespace MyApi.Models
 {
@@ -11,14 +12,14 @@ namespace MyApi.Models
 
         [Required]
         [ForeignKey("Course")]
-        public required int course_id{ get; set; }
+        public int course_id{ get; set; }
 
         [Required]
         [ForeignKey("Student")]
-        public required int student_id { get; set; }
+        public int student_id { get; set; }
 
         [Required]
-        public required int capacity { get; set; }
+        public int capacity { get; set; }
 
         [Required]
         [StringLength(255)]

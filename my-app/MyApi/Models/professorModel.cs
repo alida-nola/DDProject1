@@ -11,11 +11,11 @@ namespace MyApi.Models
 
         [Required]
         [StringLength(255)]
-        public required string first_name{ get; set; }
+        public string first_name{ get; set; }
 
         [Required]
         [StringLength(255)]
-        public required string last_name { get; set; }
+        public string last_name { get; set; }
 
         [StringLength(255)]
         public string professor_department { get; set; } = "Unassigned";

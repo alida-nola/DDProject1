@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "/hOZFAY5obM=",
+  "dgSpecHash": "Hnf6wKseOjw=",
   "success": true,
-  "projectFilePath": "C:\\Users\\alida\\source\\repos\\DDProject\\DDProject1\\my-app\\MyApi\\MyApi.csproj",
+  "projectFilePath": "C:\\Users\\alida\\source\\repos\\DDProject\\DDProject1\\my-app\\myApi\\MyApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\alida\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\alida\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",

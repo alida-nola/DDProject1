@@ -7,42 +7,42 @@ namespace MyApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class AssignedController : ControllerBase
+    public class ProfessorAssignedController : ControllerBase
     {
         private readonly MyDbContext _context;
 
-        public AssignedController(MyDbContext context)
+        public ProfessorAssignedController(MyDbContext context)
         {
             _context = context;
         }
 
-        // GET: Reads list of Assigneds
+        // GET: Read all
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Assigned>>> GetAssigneds()
+        public async Task<ActionResult<IEnumerable<ProfessorAssigned>>> GetProfessorAssigned()
         {
-            var Assigneds = await _context.Assigneds.ToListAsync();
-            return Ok(Assigneds);  
+            var professorAssignedList = await _context.ProfessorAssigned.ToListAsync();
+            return Ok(professorAssignedList);
         }
 
-        // POST: Creates Assigned
+        // POST: Create
         [HttpPost]
-        public async Task<ActionResult<Assigned>> PostAssigned(Assigned Assigned)
+        public async Task<ActionResult<ProfessorAssigned>> PostProfessorAssigned(ProfessorAssigned professorAssigned)
         {
-            _context.Assigneds.Add(Assigned);
+            _context.ProfessorAssigned.Add(professorAssigned);
             await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetAssigneds), new { id = Assigned.Assigned_id }, Assigned);  // Return 201 Created with the new Assigned
+            return CreatedAtAction(nameof(GetProfessorAssigned), new { id = professorAssigned.professorAssigned_id }, professorAssigned);  // Corrected to match model's property name
         }
 
-        // PUT: Updates existing Assigned
+        // PUT: Update
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAssigned(int id, Assigned Assigned)
+        public async Task<IActionResult> PutProfessorAssigned(int id, ProfessorAssigned professorAssigned)
         {
-            if (id != Assigned.Assigned_id)
+            if (id != professorAssigned.professorAssigned_id)  // Corrected to match model's property name
             {
-                return BadRequest();  
+                return BadRequest();
             }
 
-            _context.Entry(Assigned).State = EntityState.Modified;
+            _context.Entry(professorAssigned).State = EntityState.Modified;
 
             try
             {
@@ -50,9 +50,9 @@ namespace MyApi.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!AssignedExists(id))
+                if (!ProfessorAssignedExists(id))
                 {
-                    return NotFound();  
+                    return NotFound();
                 }
                 else
                 {
@@ -60,28 +60,28 @@ namespace MyApi.Controllers
                 }
             }
 
-            return NoContent();  
+            return NoContent();
         }
 
-        // DELETE: Removes Assigned
+        // DELETE: Remove
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAssigned(int id)
+        public async Task<IActionResult> DeleteProfessorAssigned(int id)
         {
-            var Assigned = await _context.Assigneds.FindAsync(id);
-            if (Assigned == null)
+            var professorAssigned = await _context.ProfessorAssigned.FindAsync(id);
+            if (professorAssigned == null)
             {
-                return NotFound();  
+                return NotFound();
             }
 
-            _context.Assigneds.Remove(Assigned);
+            _context.ProfessorAssigned.Remove(professorAssigned);
             await _context.SaveChangesAsync();
 
-            return NoContent();  
+            return NoContent();
         }
 
-        private bool AssignedExists(int id)
+        private bool ProfessorAssignedExists(int id)
         {
-            return _context.Assigneds.Any(e => e.Assigned_id == id);
+            return _context.ProfessorAssigned.Any(e => e.professorAssigned_id == id);  // Corrected to match model's property name
         }
     }
 }
