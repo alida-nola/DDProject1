@@ -23,16 +23,55 @@ builder.Services.AddSwaggerGen();
 // Add controllers to handle the API endpoints
 builder.Services.AddControllers();
 
-var app = builder.Build();
+// Add CORS allowing a domain to request from another
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
+var app = builder.Build();  
+
+// Check database connection
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var dbContext = services.GetRequiredService<MyDbContext>();
+
+    try
+    {
+        var canConnect = await dbContext.Database.CanConnectAsync();
+        if (canConnect)
+        {
+            Console.WriteLine("Database connection successful!");
+        }
+        else
+        {
+            Console.WriteLine("Database connection failed.");
+        }
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Database connection failed: {ex.Message}");
+        throw;
+    }
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();  
-    app.UseSwaggerUI(); 
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
+
+// Apply CORS middleware after the app has been built
+app.UseCors("AllowAll");
 
 // Map API controllers to handle the CRUD endpoints
 app.MapControllers();

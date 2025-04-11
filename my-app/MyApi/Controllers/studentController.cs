@@ -21,21 +21,7 @@ namespace MyApi.Controllers
         public async Task<ActionResult<IEnumerable<Student>>> GetStudents()
         {
             var students = await _context.Students.ToListAsync();
-            return (students);  
-        }
-
-        // GET: Reads student by id
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Student>> GetStudent(int id)
-        {
-            var student = await _context.Students.FindAsync(id);
-
-            if (student == null)
-            {
-                return NotFound(); 
-            }
-
-            return (student);  
+            return Ok(students);  
         }
 
         // POST: Creates student
@@ -44,7 +30,7 @@ namespace MyApi.Controllers
         {
             _context.Students.Add(student);
             await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetStudent), new { id = student.student_id }, student);
+            return CreatedAtAction(nameof(GetStudents), new { id = student.student_id }, student);  // Return 201 Created with the new student
         }
 
         // PUT: Updates existing student
@@ -74,7 +60,7 @@ namespace MyApi.Controllers
                 }
             }
 
-            return NoContent(); 
+            return NoContent();  
         }
 
         // DELETE: Removes student

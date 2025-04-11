@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyApi.Data;
 
@@ -10,9 +11,11 @@ using MyApi.Data;
 namespace MyApi.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250410232459_FixTableName")]
+    partial class FixTableName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,7 +47,7 @@ namespace MyApi.Migrations
 
                     b.HasKey("course_id");
 
-                    b.ToTable("Course", (string)null);
+                    b.ToTable("Courses");
                 });
 
             modelBuilder.Entity("MyApi.Models.Enrolled", b =>
@@ -103,7 +106,7 @@ namespace MyApi.Migrations
 
                     b.HasKey("professor_id");
 
-                    b.ToTable("Professor", (string)null);
+                    b.ToTable("Professors");
                 });
 
             modelBuilder.Entity("MyApi.Models.ProfessorAssigned", b =>
@@ -159,7 +162,7 @@ namespace MyApi.Migrations
 
                     b.HasKey("student_id");
 
-                    b.ToTable("Student", (string)null);
+                    b.ToTable("Course", (string)null);
                 });
 
             modelBuilder.Entity("MyApi.Models.Enrolled", b =>

@@ -18,7 +18,7 @@ namespace MyApi.Models
         public required string last_name { get; set; }
 
         [StringLength(255)]
-        public string professor_department { get; set; } = "Unassigned"
+        public string professor_department { get; set; } = "Unassigned";
 
     }
 }

@@ -24,8 +24,8 @@ namespace MyApi.Data
 
             // Explicit connections to Dbsets
             modelBuilder.Entity<Student>().ToTable("Student");
-            modelBuilder.Entity<Student>().ToTable("Professor");
-            modelBuilder.Entity<Student>().ToTable("Course");
+            modelBuilder.Entity<Professor>().ToTable("Professor");
+            modelBuilder.Entity<Course>().ToTable("Course");
             modelBuilder.Entity<ProfessorAssigned>().ToTable("Professor_Assigned");
             modelBuilder.Entity<Enrolled>().ToTable("Enrolled");
         }
