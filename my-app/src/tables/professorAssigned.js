@@ -58,9 +58,12 @@ const ProfessorAssignedTable = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setNewProfessorAssigned({ professor_id: '', course_id: '', semester: '' });
+    setNewProfessorAssigned(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
-
+  
   const handleCreateProfessorAssigned= async (e) => {
     e.preventDefault();
     try {
@@ -167,7 +170,7 @@ const ProfessorAssignedTable = () => {
                 <option value="">Select Professor</option>
                 {professors.map(professor => (
                   <option key={professor.professor_id} value={professor.professor_id}>
-                    {professor.professor_id} - {professor.professor_id}
+                    {professor.professor_id} - {professor.first_name} {professor.last_name}
                   </option>
                 ))}
               </Form.Select>

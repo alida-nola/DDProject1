@@ -26,7 +26,7 @@ function App() {
         <ProfessorTable />
         <CourseTable />
         <EnrolledTable />
-        {/* <ProfessorAssignedTable /> */}
+        <ProfessorAssignedTable />
       </div>
     </div>
   );
