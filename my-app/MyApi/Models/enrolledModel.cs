@@ -10,11 +10,9 @@ namespace MyApi.Models
         [Key]
         public int enrolled_id { get; set; }
 
-        [Required]
         [ForeignKey("Course")]
         public int course_id{ get; set; }
 
-        [Required]
         [ForeignKey("Student")]
         public int student_id { get; set; }
 

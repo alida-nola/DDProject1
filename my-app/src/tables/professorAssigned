@@ -212,35 +212,47 @@ const ProfessorAssignedTable = () => {
           {editProfessorAssigned && (
             <Form onSubmit={handleUpdateProfessorAssigned}>
               <Form.Group className="mb-3">
-                <Form.Label>Professor ID</Form.Label>
-                <Form.Control
-                  type="number"
-                  name="professor_id"  
-                  value={editProfessorAssigned.professor_id}  
-                  onChange={handleEditInputChange}
-                  required
-                />
-              </Form.Group>
+              <Form.Label>Professor</Form.Label>
+              <Form.Select
+                name="professor_id"
+                value={editProfessorAssigned.professor_id}
+                onChange={handleEditInputChange}
+                required
+              >
+                <option value="">Select Professor</option>
+                {professors.map(professor => (
+                  <option key={professor.professor_id} value={professor.professor_id}>
+                    {professor.professor_id} - {professor.first_name} {professor.last_name}
+                  </option>
+                ))}
+              </Form.Select>
+            </Form.Group>
               <Form.Group className="mb-3">
-                <Form.Label>Course ID</Form.Label>
-                <Form.Control
-                  type="number"
-                  name="course_id"
-                  value={editProfessorAssigned.course_id}
-                  onChange={handleEditInputChange}
-                  required
-                />
+              <Form.Label>Course</Form.Label>
+              <Form.Select
+                name="course_id"
+                value={editProfessorAssigned.course_id}
+                onChange={handleEditInputChange}
+                required
+              >
+                <option value="">Select Course</option>
+                {courses.map(course => (
+                  <option key={course.course_id} value={course.course_id}>
+                    {course.course_id} - {course.course_name}
+                  </option>
+                ))}
+              </Form.Select>
               </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>Semester</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="semester"
-                  value={editProfessorAssigned.semester}
-                  onChange={handleEditInputChange}
-                  required
-                />
-              </Form.Group>
+                <Form.Group className="mb-3">
+                  <Form.Label>Semester</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="semester"
+                    value={editProfessorAssigned.semester}
+                    onChange={handleEditInputChange}
+                    required
+                  />
+                </Form.Group>
               <Button type="submit" variant="primary">Update</Button>
             </Form>
           )}

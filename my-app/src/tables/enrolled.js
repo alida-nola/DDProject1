@@ -62,10 +62,10 @@ const EnrolledTable = () => {
 
   const handleCreateEnrolled = async (e) => {
     e.preventDefault();
-  
+    
     const payload = {
-      course_id: parseInt(newEnrolled.course_id),  
-      student_id: parseInt(newEnrolled.student_id), 
+      course_id: parseInt(newEnrolled.course_id),
+      student_id: parseInt(newEnrolled.student_id),
       capacity: parseInt(newEnrolled.capacity),
       semester: newEnrolled.semester,
     };
@@ -81,13 +81,12 @@ const EnrolledTable = () => {
       setShowModal(false);
       fetchEnrolled();
     } catch (error) {
-      // Log the error response for debugging
       console.error("Error creating Enrolled:", error);
       if (error.response) {
         console.error("Backend error:", error.response.data);
       }
     }
-  };  
+  };
   
   const handleDelete = async (id) => {
     try {
@@ -112,10 +111,10 @@ const EnrolledTable = () => {
     e.preventDefault();
   
     const payload = {
-      ...editEnrolled,
-      course_id: parseInt(editEnrolled.course_id),
-      student_id: parseInt(editEnrolled.student_id),
-      capacity: parseInt(editEnrolled.capacity)
+      course_id: parseInt(editEnrolled.course_id), 
+      student_id: parseInt(editEnrolled.student_id), 
+      capacity: parseInt(editEnrolled.capacity), 
+      semester: editEnrolled.semester, 
     };
   
     try {
@@ -124,6 +123,9 @@ const EnrolledTable = () => {
       fetchEnrolled();
     } catch (error) {
       console.error('Error updating Enrolled:', error);
+      if (error.response) {
+        console.error("Backend error:", error.response.data); 
+      }
     }
   };
   
@@ -237,31 +239,43 @@ const EnrolledTable = () => {
       {/* Edit Modal */}
       <Modal show={showEditModal} onHide={() => setShowEditModal(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Course Edit</Modal.Title>
+          <Modal.Title>Enrollment Edit</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {editEnrolled && (
             <Form onSubmit={handleUpdateEnrolled}>
-              <Form.Group className="mb-3">
-                <Form.Label>Course ID</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="course_id"
-                  value={editEnrolled.course_id}
-                  onChange={handleEditInputChange}
-                  required
-                />
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>Student ID</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="student_id"
-                  value={editEnrolled.student_id}
-                  onChange={handleEditInputChange}
-                  required
-                />
-              </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Course</Form.Label>
+              <Form.Select
+                name="course_id"
+                value={editEnrolled.course_id}
+                onChange={handleEditInputChange}
+                required
+              >
+                <option value="">Select Course</option>
+                {courses.map(course => (
+                  <option key={course.course_id} value={course.course_id}>
+                    {course.course_id} - {course.course_name}
+                  </option>
+                ))}
+              </Form.Select>
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Student</Form.Label>
+              <Form.Select
+                name="student_id"
+                value={editEnrolled.student_id}
+                onChange={handleEditInputChange}
+                required
+              >
+                <option value="">Select Student</option>
+                {students.map(student => (
+                  <option key={student.student_id} value={student.student_id}>
+                    {student.student_id} - {student.first_name} {student.last_name}
+                  </option>
+                ))}
+              </Form.Select>
+            </Form.Group>
               <Form.Group className="mb-3">
                 <Form.Label>Capacity</Form.Label>
                 <Form.Control

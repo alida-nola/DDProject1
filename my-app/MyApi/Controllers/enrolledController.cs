@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyApi.Data;
 using MyApi.Models;
+using MyApi.Models.Dto;
 
 namespace MyApi.Controllers
 {
@@ -28,25 +29,55 @@ namespace MyApi.Controllers
             return Ok(Enrolled);  
         }
 
-        // POST: Creates Enrolled
+        // POST: Creates a new enrollment
         [HttpPost]
-        public async Task<ActionResult<Enrolled>> PostEnrolled(Enrolled Enrolled)
+        public async Task<ActionResult<Enrolled>> PostEnrolled([FromBody] EnrolledDto dto)
         {
-            _context.Enrolled.Add(Enrolled);
-            await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetEnrolled), new { id = Enrolled.enrolled_id }, Enrolled);  // Return 201 Created with the new Enrolled
-        }
-
-        // PUT: Updates existing Enrolled
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutEnrolled(int id, Enrolled Enrolled)
-        {
-            if (id != Enrolled.enrolled_id)
+            if (!ModelState.IsValid)
             {
-                return BadRequest();  
+                var errors = ModelState
+                    .Where(x => x.Value.Errors.Count > 0)
+                    .ToDictionary(
+                        kvp => kvp.Key,
+                        kvp => kvp.Value.Errors.Select(e => e.ErrorMessage).ToArray()
+                    );
+
+                return BadRequest(new
+                {
+                    message = "Validation failed",
+                    errors
+                });
             }
 
-            _context.Entry(Enrolled).State = EntityState.Modified;
+            var enrolled = new Enrolled
+            {
+                course_id = dto.course_id,
+                student_id = dto.student_id,
+                capacity = dto.capacity,
+                semester = dto.semester
+            };
+
+            _context.Enrolled.Add(enrolled);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetEnrolled), new { id = enrolled.enrolled_id }, enrolled);
+        }
+
+        // UPDATE: Updates exisiting enrollment
+       [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateEnrollment(int id, [FromBody] UpdateEnrolledDto dto)
+        {
+            var enrolled = await _context.Enrolled.FindAsync(id);
+            if (enrolled == null)
+            {
+                return NotFound();
+            }
+
+            // Update values from DTO
+            enrolled.course_id = dto.course_id;
+            enrolled.student_id = dto.student_id;
+            enrolled.capacity = dto.capacity;
+            enrolled.semester = dto.semester;
 
             try
             {
@@ -56,7 +87,7 @@ namespace MyApi.Controllers
             {
                 if (!EnrolledExists(id))
                 {
-                    return NotFound();  
+                    return NotFound();
                 }
                 else
                 {
@@ -64,10 +95,10 @@ namespace MyApi.Controllers
                 }
             }
 
-            return NoContent();  
+            return NoContent();
         }
 
-        // DELETE: Removes Enrolled
+        // DELETE: Removes an enrollment
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEnrolled(int id)
         {
