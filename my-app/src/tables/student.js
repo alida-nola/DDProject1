@@ -29,7 +29,7 @@ const StudentTable = () => {
       const response = await axios.get('http://localhost:5071/api/Student');
       setStudents(response.data);
     } catch (error) {
-      console.error('Error fetching students:', error);
+      console.error('Error fetching Students:', error);
     }
   };
 
@@ -46,7 +46,7 @@ const StudentTable = () => {
       setShowModal(false);
       fetchStudents();
     } catch (error) {
-      console.error('Error creating student:', error);
+      console.error('Error creating Student:', error);
     }
   };
 
@@ -55,7 +55,7 @@ const StudentTable = () => {
       await axios.delete(`http://localhost:5071/api/Student/${id}`);
       fetchStudents();
     } catch (error) {
-      console.error('Error deleting student:', error);
+      console.error('Error deleting Student:', error);
     }
   };
 
@@ -76,7 +76,7 @@ const StudentTable = () => {
       setShowEditModal(false);
       fetchStudents();
     } catch (error) {
-      console.error('Error updating student:', error);
+      console.error('Error updating Student:', error);
     }
   };
 

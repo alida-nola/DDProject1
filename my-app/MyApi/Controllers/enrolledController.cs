@@ -20,7 +20,11 @@ namespace MyApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Enrolled>>> GetEnrolled()
         {
-            var Enrolled = await _context.Enrolled.ToListAsync();
+            var Enrolled = await _context.Enrolled
+                .Include(e => e.Course)
+                .Include(e => e.Student)
+                .ToListAsync();
+
             return Ok(Enrolled);  
         }
 

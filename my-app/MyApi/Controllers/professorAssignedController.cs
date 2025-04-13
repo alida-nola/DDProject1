@@ -26,18 +26,30 @@ namespace MyApi.Controllers
 
         // POST: Create
         [HttpPost]
-        public async Task<ActionResult<ProfessorAssigned>> PostProfessorAssigned(ProfessorAssigned professorAssigned)
+        public async Task<ActionResult<ProfessorAssigned>> PostProfessorAssigned([FromBody] ProfessorAssigned professorAssigned)
         {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage)
+                    .ToList();
+
+                return BadRequest(new { message = "Model validation failed", errors });
+            }
+
             _context.ProfessorAssigned.Add(professorAssigned);
             await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetProfessorAssigned), new { id = professorAssigned.professorAssigned_id }, professorAssigned);  // Corrected to match model's property name
+
+            return CreatedAtAction(nameof(GetProfessorAssigned), new { id = professorAssigned.assigned_id }, professorAssigned);
         }
+
 
         // PUT: Update
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProfessorAssigned(int id, ProfessorAssigned professorAssigned)
         {
-            if (id != professorAssigned.professorAssigned_id)  // Corrected to match model's property name
+            if (id != professorAssigned.assigned_id)  
             {
                 return BadRequest();
             }
@@ -81,7 +93,7 @@ namespace MyApi.Controllers
 
         private bool ProfessorAssignedExists(int id)
         {
-            return _context.ProfessorAssigned.Any(e => e.professorAssigned_id == id);  // Corrected to match model's property name
+            return _context.ProfessorAssigned.Any(e => e.assigned_id == id);  // Corrected to match model's property name
         }
     }
 }

@@ -8,7 +8,7 @@ namespace MyApi.Models
     public class ProfessorAssigned
     {
         [Key]
-        public int professorAssigned_id { get; set; }
+        public int assigned_id { get; set; }
 
         [Required]
         [ForeignKey(nameof(Professor))]
