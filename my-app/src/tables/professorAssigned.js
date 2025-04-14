@@ -233,7 +233,7 @@ const ProfessorAssignedTable = () => {
                 required
               />
             </Form.Group>
-            <Button type="submit" variant="success">Submit</Button>
+            <button type="submit" className="custom-button">Submit</button>
           </Form>
         </Modal.Body>
       </Modal>
@@ -288,7 +288,7 @@ const ProfessorAssignedTable = () => {
                     required
                   />
                 </Form.Group>
-              <Button type="submit" variant="primary">Update</Button>
+              <button type="submit" className="custom-button">Update</button>
             </Form>
           )}
         </Modal.Body>
