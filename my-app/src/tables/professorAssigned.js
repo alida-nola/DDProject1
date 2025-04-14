@@ -64,18 +64,28 @@ const ProfessorAssignedTable = () => {
     }));
   };
   
-  const handleCreateProfessorAssigned= async (e) => {
+  const handleCreateProfessorAssigned = async (e) => {
     e.preventDefault();
+  
+    const payload = {
+      professor_id: parseInt(newProfessorAssigned.professor_id),
+      course_id: parseInt(newProfessorAssigned.course_id),
+      semester: newProfessorAssigned.semester
+    };    
+  
     try {
-      await axios.post('http://localhost:5071/api/professorAssigned', newProfessorAssigned);
+      await axios.post('http://localhost:5071/api/professorAssigned', payload);
       setNewProfessorAssigned({ professor_id: '', course_id: '', semester: '' });
       setShowModal(false);
       fetchProfessorAssigned();
     } catch (error) {
       console.error('Error creating Professor Assigned:', error);
+      if (error.response?.data) {
+        console.error('Server says:', error.response.data);
+      }
     }
   };
-
+  
   const handleDelete = async (id) => {
     try {
       await axios.delete(`http://localhost:5071/api/professorAssigned/${id}`);
@@ -95,24 +105,28 @@ const ProfessorAssignedTable = () => {
     setEditProfessorAssigned(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleUpdateProfessorAssigned= async (e) => {
+  const handleUpdateProfessorAssigned = async (e) => {
     e.preventDefault();
-
+  
     const payload = {
-      ...editProfessorAssigned,
-      course_id: parseInt(editProfessorAssigned.course_id),
+      assigned_id: editProfessorAssigned.assigned_id,
       professor_id: parseInt(editProfessorAssigned.professor_id),
+      course_id: parseInt(editProfessorAssigned.course_id),
+      semester: editProfessorAssigned.semester
     };
-
+    
     try {
       await axios.put(`http://localhost:5071/api/professorAssigned/${editProfessorAssigned.assigned_id}`, payload);
       setShowEditModal(false);
       fetchProfessorAssigned();
     } catch (error) {
       console.error('Error updating Professor Assigned:', error);
+      if (error.response?.data) {
+        console.error('Server says:', error.response.data);
+      }
     }
   };
-
+  
   return (
     <div className="p-1">
       <div className="d-flex justify-content-between align-items-center mb-2">

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyApi.Data;
 using MyApi.Models;
+using MyApi.Models.Dto;
 
 namespace MyApi.Controllers
 {
@@ -26,7 +27,7 @@ namespace MyApi.Controllers
 
         // POST: Create
         [HttpPost]
-        public async Task<ActionResult<ProfessorAssigned>> PostProfessorAssigned([FromBody] ProfessorAssigned professorAssigned)
+        public async Task<ActionResult<ProfessorAssigned>> PostProfessorAssigned([FromBody] CreateProfessorAssignedDto createProfessorAssignedDto)
         {
             if (!ModelState.IsValid)
             {
@@ -38,23 +39,36 @@ namespace MyApi.Controllers
                 return BadRequest(new { message = "Model validation failed", errors });
             }
 
+            var professorAssigned = new ProfessorAssigned
+            {
+                professor_id = createProfessorAssignedDto.professor_id,
+                course_id = createProfessorAssignedDto.course_id,
+                semester = createProfessorAssignedDto.semester
+            };
+
             _context.ProfessorAssigned.Add(professorAssigned);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetProfessorAssigned), new { id = professorAssigned.assigned_id }, professorAssigned);
         }
 
-
-        // PUT: Update
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProfessorAssigned(int id, ProfessorAssigned professorAssigned)
+        public async Task<IActionResult> PutProfessorAssigned(int id, [FromBody] UpdateProfessorAssignedDto updateProfessorAssignedDto)
         {
-            if (id != professorAssigned.assigned_id)  
+            if (id != updateProfessorAssignedDto.professor_id)
             {
-                return BadRequest();
+                return BadRequest("ID mismatch");
             }
 
-            _context.Entry(professorAssigned).State = EntityState.Modified;
+            var professorAssigned = await _context.ProfessorAssigned.FindAsync(id);
+            if (professorAssigned == null)
+            {
+                return NotFound();
+            }
+
+            professorAssigned.professor_id = updateProfessorAssignedDto.professor_id;
+            professorAssigned.course_id = updateProfessorAssignedDto.course_id;
+            professorAssigned.semester = updateProfessorAssignedDto.semester;
 
             try
             {
@@ -72,7 +86,7 @@ namespace MyApi.Controllers
                 }
             }
 
-            return NoContent();
+            return NoContent();  
         }
 
         // DELETE: Remove
