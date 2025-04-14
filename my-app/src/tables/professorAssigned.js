@@ -109,14 +109,15 @@ const ProfessorAssignedTable = () => {
     e.preventDefault();
   
     const payload = {
-      assigned_id: editProfessorAssigned.assigned_id,
       professor_id: parseInt(editProfessorAssigned.professor_id),
       course_id: parseInt(editProfessorAssigned.course_id),
-      semester: editProfessorAssigned.semester
+      semester: editProfessorAssigned.semester,
     };
-    
+  
     try {
-      await axios.put(`http://localhost:5071/api/professorAssigned/${editProfessorAssigned.assigned_id}`, payload);
+      console.log('Updating professor assigned:', payload);  
+      await axios.put(
+        `http://localhost:5071/api/professorAssigned/${editProfessorAssigned.assigned_id}`, payload);
       setShowEditModal(false);
       fetchProfessorAssigned();
     } catch (error) {

@@ -25,7 +25,7 @@ namespace MyApi.Controllers
             return Ok(professorAssignedList);
         }
 
-        // POST: Create
+        // POST: Create an assignment
         [HttpPost]
         public async Task<ActionResult<ProfessorAssigned>> PostProfessorAssigned([FromBody] CreateProfessorAssignedDto createProfessorAssignedDto)
         {
@@ -52,14 +52,10 @@ namespace MyApi.Controllers
             return CreatedAtAction(nameof(GetProfessorAssigned), new { id = professorAssigned.assigned_id }, professorAssigned);
         }
 
+        // UPDATE: Updates existing assignment
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProfessorAssigned(int id, [FromBody] UpdateProfessorAssignedDto updateProfessorAssignedDto)
         {
-            if (id != updateProfessorAssignedDto.professor_id)
-            {
-                return BadRequest("ID mismatch");
-            }
-
             var professorAssigned = await _context.ProfessorAssigned.FindAsync(id);
             if (professorAssigned == null)
             {
@@ -89,7 +85,7 @@ namespace MyApi.Controllers
             return NoContent();  
         }
 
-        // DELETE: Remove
+        // DELETE: Remove an assignment
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProfessorAssigned(int id)
         {
@@ -107,7 +103,7 @@ namespace MyApi.Controllers
 
         private bool ProfessorAssignedExists(int id)
         {
-            return _context.ProfessorAssigned.Any(e => e.assigned_id == id);  // Corrected to match model's property name
+            return _context.ProfessorAssigned.Any(e => e.assigned_id == id);  
         }
     }
 }
