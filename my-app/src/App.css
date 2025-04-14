@@ -1,3 +1,24 @@
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  background-color:#F8E7B4; 
+}
+
+.custom-button {
+  background-color: #4D6C93;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.custom-button:hover {
+  background-color: #3b4f6f;
+}
+
+
 .App {
   text-align: center;
 }

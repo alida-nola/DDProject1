@@ -1,11 +1,10 @@
+import '../App.css';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Table from 'react-bootstrap/Table';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import Dropdown from 'react-bootstrap/Dropdown';
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
 
 const StudentTable = () => {
   const [students, setStudents] = useState([]);
@@ -84,17 +83,17 @@ const StudentTable = () => {
     <div className="p-1">
       <div className="d-flex justify-content-between align-items-center mb-2">
         <h2 className="mb-0">Students</h2>
-        <Button variant="primary" onClick={() => setShowModal(true)}>+ Create Student</Button>
+        <button className="custom-button" onClick={() => setShowModal(true)}>+ Create Student</button>
       </div>
 
       <Table striped bordered hover responsive className="mt-2">
-        <thead>
+        <thead> 
           <tr>
-            <th>ID</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Major</th>
-            <th>Actions</th>
+            <th style={{ backgroundColor: '#4D6C93', color: 'white'}}>ID</th>
+            <th style={{ backgroundColor: '#4D6C93', color: 'white'}}>First Name</th>
+            <th style={{ backgroundColor: '#4D6C93', color: 'white'}}>Last Name</th>
+            <th style={{ backgroundColor: '#4D6C93', color: 'white'}}>Major</th>
+            <th style={{ backgroundColor: '#4D6C93', color: 'white'}}>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -105,14 +104,32 @@ const StudentTable = () => {
               <td>{student.last_name}</td>
               <td>{student.major}</td>
               <td>
-                <Dropdown as={ButtonGroup}>
-                  <Button variant="outline-secondary" size="sm">Actions</Button>
-                  <Dropdown.Toggle split variant="outline-secondary" id={`dropdown-${student.student_id}`} />
-                  <Dropdown.Menu>
-                    <Dropdown.Item onClick={() => handleEdit(student)}>Edit</Dropdown.Item>
-                    <Dropdown.Item className="text-danger" onClick={() => handleDelete(student.student_id)}>Delete</Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Button
+                    variant="outline-primary"
+                    size="sm"
+                    onClick={() => handleEdit(student)}
+                  >
+                    Edit
+                  </Button>
+
+                  <div
+                    style={{
+                      width: '1px',
+                      height: '20px',
+                      backgroundColor: '#ccc',
+                      margin: '0 8px',
+                    }}
+                  ></div>
+
+                  <Button
+                    variant="outline-danger"
+                    size="sm"
+                    onClick={() => handleDelete(student.student_id)}
+                  >
+                    Delete
+                  </Button>
+                </div>
               </td>
             </tr>
           ))}

@@ -1,11 +1,10 @@
+import '../App.css';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Table from 'react-bootstrap/Table';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import Dropdown from 'react-bootstrap/Dropdown';
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
 
 const EnrolledTable = () => {
   const [enrolled, setEnrolled] = useState([]);
@@ -133,18 +132,18 @@ const EnrolledTable = () => {
     <div className="p-1">
       <div className="d-flex justify-content-between align-items-center mb-2">
         <h2 className="mb-0">Enrolled</h2>
-        <Button variant="primary" onClick={() => setShowModal(true)}>+ Enroll</Button>
+        <button className='custom-button' onClick={() => setShowModal(true)}>+ Enroll</button>
       </div>
 
       <Table striped bordered hover responsive className="mt-2">
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Course ID</th>
-            <th>Student ID</th>
-            <th>Capacity</th>
-            <th>Semester</th>
-            <th>Actions</th>
+            <th style={{ backgroundColor: '#4D6C93', color: 'white'}}>ID</th>
+            <th style={{ backgroundColor: '#4D6C93', color: 'white'}}>Course ID</th>
+            <th style={{ backgroundColor: '#4D6C93', color: 'white'}}>Student ID</th>
+            <th style={{ backgroundColor: '#4D6C93', color: 'white'}}>Capacity</th>
+            <th style={{ backgroundColor: '#4D6C93', color: 'white'}}> Semester</th>
+            <th style={{ backgroundColor: '#4D6C93', color: 'white'}}>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -156,14 +155,32 @@ const EnrolledTable = () => {
               <td>{enrolled.capacity}</td>
               <td>{enrolled.semester}</td>
               <td>
-                <Dropdown as={ButtonGroup}>
-                  <Button variant="outline-secondary" size="sm">Actions</Button>
-                  <Dropdown.Toggle split variant="outline-secondary" />
-                  <Dropdown.Menu>
-                    <Dropdown.Item onClick={() => handleEdit(enrolled)}>Edit</Dropdown.Item>
-                    <Dropdown.Item className="text-danger" onClick={() => handleDelete(enrolled.enrolled_id)}>Delete</Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Button
+                    variant="outline-primary"
+                    size="sm"
+                    onClick={() => handleEdit(enrolled)}
+                  >
+                    Edit
+                  </Button>
+
+                  <div
+                    style={{
+                      width: '1px',
+                      height: '20px',
+                      backgroundColor: '#ccc',
+                      margin: '0 8px',
+                    }}
+                  ></div>
+
+                  <Button
+                    variant="outline-danger"
+                    size="sm"
+                    onClick={() => handleDelete(enrolled.enrolled_id)}
+                  >
+                    Delete
+                  </Button>
+                </div>
               </td>
             </tr>
           ))}
